@@ -196,7 +196,6 @@ COALESCE(
 	WHERE vi.product_id = product_units.product_id AND
 	vi.market_date = 
 		(SELECT MAX(vi2.market_date) FROM vendor_inventory vi2 WHERE vi2.product_id = vi.product_id)),
-
 0);
 
 SELECT * FROM product_units;
