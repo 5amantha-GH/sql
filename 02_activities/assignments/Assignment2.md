@@ -54,7 +54,11 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
 ```
-Your answer...
+To manage changes in customer addresses, two architectural approaches can be used for the CUSTOMER_ADDRESS table: Type 1 (Overwrite) and Type 2 (Retain History).
+
+In a Type 1 architecture, the CUSTOMER_ADDRESS table holds only a single record per customer. When a customer’s address changes, the existing record is simply updated with the new information. This means the old address is overwritten and permanently lost, retaining only the most current data. The main benefits of this approach are its simplicity and efficiency—it’s easy to implement, requires less storage, and is fast to process. However, it comes with significant drawbacks: there is no way to track historical changes or analyze how data has evolved over time and any past information is irretrievably lost.
+
+On the other hand, a Type 2 architecture preserves the full history of changes. In this model, the CUSTOMER_ADDRESS table allows multiple records per customer, each with associated effective_start_date, effective_end_date, and an is_current flag to indicate the active address. When a customer’s address changes, the current record is updated to set the effective_end_date to the change date and is_current to FALSE. A new record is then inserted with the updated address, a new effective_start_date, and is_current set to TRUE. This approach enables complete historical tracking and supports time-based analysis, which is crucial for auditing and accurate reporting. However, it increases the complexity of data processing and querying and requires more storage due to the accumulation of historical records.
 ```
 
 ***
