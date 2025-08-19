@@ -62,7 +62,7 @@ WHERE visit_number = 1;
 /* 3. Using a COUNT() window function, include a value along with each row of the 
 customer_purchases table that indicates how many different times that customer has purchased that product_id. */
 SELECT *, 
-	COUNT() OVER (PARTITION BY customer_id, product_id ORDER BY product_id) AS product_purchases_count
+	COUNT(product_id) OVER (PARTITION BY customer_id, product_id ORDER BY product_id) AS product_purchases_count
 FROM customer_purchases;
 
 
@@ -127,7 +127,7 @@ Remember, CROSS JOIN will explode your table rows, so CROSS JOIN should likely b
 Think a bit about the row counts: how many distinct vendors, product names are there (x)?
 How many customers are there (y). 
 Before your final group by you should have the product of those two queries (x*y).  */
-SELECT vendor_name, product_name,
+SELECT DISTINCT vendor_name, product_name,
 SUM (original_price*5) AS sales FROM vendor_inventory vi
 JOIN vendor v ON v.vendor_id = vi.vendor_id JOIN product p ON p.product_id = vi.product_id 
 CROSS JOIN customer
